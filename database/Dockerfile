@@ -14,3 +14,6 @@ COPY ./init.sql /docker-entrypoint-initdb.d/
 
 # Copy the data (tsv files) from local machine.
 COPY ./data /app/data
+
+# Set the current working directory.
+WORKDIR /app
