@@ -362,8 +362,8 @@ def main(argv):
     config   = configparser.ConfigParser()
     config.read("remote.cfg")
     host     = "mydb"
-    user     = "myuser"
-    password = "mypassword"
+    user     = "root"
+    password = "root_password"
     database = "imdb_database"
 
     # connect to the database and make queries

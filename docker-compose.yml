@@ -1,15 +1,30 @@
-version: "3"
+version: "3.8"
 services:
-    db:
-        container_name: mydb
-        build: ./database
-        ports:
-            - "3306:3306"
-    app:
-        container_name: myapp
-        links:
-            - "db"
-        build: ./backend
-        ports:
-            - "5001:5000"
-      
+  mydb:
+    container_name: mydb
+    build: ./database
+    ports: # Changed from expose to ports to make it accessible if needed from the host, can be reverted to expose if only intra-docker communication is needed
+      - "3306:3306"
+    environment: # Assuming you're using MySQL, adjust these variables as necessary
+      MYSQL_DATABASE: mydatabase
+
+      MYSQL_ROOT_PASSWORD: root_password
+    healthcheck: # Adding a healthcheck to ensure the db is ready before the app starts
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 40s
+      retries: 10
+
+  app:
+    container_name: myapp
+    build: ./backend
+    ports:
+      - "5001:5000"
+    depends_on: # This ensures app waits for mydb to be "healthy" before starting
+      mydb:
+        condition: service_healthy
+    environment: # Example of how to use environment variables to configure the app's connection to the database
+      DB_HOST: mydb
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root_password
+      DB_NAME: mydatabase
