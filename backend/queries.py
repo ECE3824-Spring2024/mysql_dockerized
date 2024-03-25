@@ -17,6 +17,7 @@
 import configparser
 import mysql.connector
 from mysql.connector import connect, Error
+from flask import Flask
 import sys
 
 def find_tom_hardy_movies(connection:mysql.connector, print_flag:bool=False) -> list:
