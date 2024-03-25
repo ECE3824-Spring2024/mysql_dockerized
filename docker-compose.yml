@@ -1,15 +1,49 @@
 version: "3"
 services:
-    db:
-        container_name: mydb
-        build: ./database
-        ports:
-            - "3306:3306"
     app:
-        container_name: myapp
-        links:
-            - "db"
+        container_name: backend
         build: ./backend
+        links:
+            - db
+        secrets:
+            - db-password
         ports:
-            - "5001:5000"
-      
+            - "5000:5000"
+        networks:
+            - backnet
+        depends_on:
+            db:
+                condition: service_healthy
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t
+    db:
+        container_name: mysql_db
+        build: ./database
+        healthcheck:
+            test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="root" --silent']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 60s
+        secrets:
+            - db-password
+        volumes:
+            - db-data:/var/lib/mysql
+        networks:
+            - backnet
+        environment:
+            - MYSQL_DATABASE=imdb_database
+            - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+        expose:
+            - 3306
+            - 33060 
+
+volumes:
+    db-data:
+
+secrets:
+    db-password:
+        file: database/password.txt
+
+networks:
+  backnet:

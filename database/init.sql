@@ -3,7 +3,8 @@
 # create the database, define the tables/schema, and populate the tables with
 # movie data.
 
-CREATE DATABASE imdb_database;
+#CREATE DATABASE imdb_database;
+USE imdb_database;
 
 CREATE TABLE names(
     name_id VARCHAR(500) PRIMARY KEY,
@@ -30,7 +31,7 @@ CREATE TABLE roles(
 LOAD DATA LOCAL INFILE 
     'data/names.tsv' 
     INTO TABLE names
-    FIELDS TERMINATED BY '\\t' 
+    FIELDS TERMINATED BY '\t' 
     ENCLOSED BY '"'
     LINES TERMINATED BY '\n'
     IGNORE 1 ROWS (
@@ -42,7 +43,7 @@ LOAD DATA LOCAL INFILE
 LOAD DATA LOCAL INFILE 
     'data/titles.tsv' 
     INTO TABLE titles
-    FIELDS TERMINATED BY '\\t' 
+    FIELDS TERMINATED BY '\t' 
     ENCLOSED BY '"'
     LINES TERMINATED BY '\n'
     IGNORE 1 ROWS (
@@ -55,7 +56,7 @@ LOAD DATA LOCAL INFILE
 LOAD DATA LOCAL INFILE 
     'data/roles.tsv' 
     INTO TABLE roles
-    FIELDS TERMINATED BY '\\t' 
+    FIELDS TERMINATED BY '\t' 
     ENCLOSED BY '"'
     LINES TERMINATED BY '\n'
     IGNORE 1 ROWS (

@@ -361,9 +361,9 @@ def main(argv):
     # parse the config file to get the network parameters
     config   = configparser.ConfigParser()
     config.read("remote.cfg")
-    host     = "mydb"
-    user     = "myuser"
-    password = "mypassword"
+    host     = "mysql_db"
+    user     = "root"
+    password = "root"
     database = "imdb_database"
 
     # connect to the database and make queries
