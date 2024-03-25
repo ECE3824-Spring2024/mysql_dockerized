@@ -346,6 +346,13 @@ def make_query(host:str, user:str, password:str, database:str, code:int=0, print
     except Error as e:  
         print(e)
 
+'''
+Get the function, ready to start modify for flask
+'''
+def listBlog()
+    return response
+    
+
 def main(argv):
     """The Main Program."""
 
