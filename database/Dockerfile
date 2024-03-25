@@ -1,18 +1,16 @@
-# Use the official MySQL image from Docker Hub (select version 5.7)
+# DOCKERFILE
+#
+# Image: MySQL
+#
+# Purpose: Dockerizes a MySQL database
+
+# Use the official MySQL image from Docker Hub (select version 5.7).
 FROM mysql:5.7
 
-# Expose port 3306
-EXPOSE 3306
-
-# Set environment variables for MySQL
-# ENV MYSQL_ROOT_PASSWORD=root
-# ENV MYSQL_DATABASE=imdb_database
-
-# Copy SQL initialization script into the container
+# Copy SQL initialization script into the container.
+# This script is only run once to initialize the database,
+# and is not run if a database volume is mounted. 
 COPY ./init.sql /docker-entrypoint-initdb.d/
 
-# Copy the data (tsv files) from local machine
+# Copy the data (tsv files) from local machine.
 COPY ./data /app/data
-
-# Set working directory
-WORKDIR /app

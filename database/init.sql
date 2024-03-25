@@ -1,9 +1,9 @@
 # This is an SQL initialization script. This script is executed once when the
 # container is started for the first time. The purpose of this script is to
 # create the database, define the tables/schema, and populate the tables with
-# movie data.
+# movie data. If a database volume is mounted to the database container, the
+# script is not run.
 
-#CREATE DATABASE imdb_database;
 USE imdb_database;
 
 CREATE TABLE names(
@@ -64,4 +64,3 @@ LOAD DATA LOCAL INFILE
         `name_id`,
         `category`,
         `characters`);
-
