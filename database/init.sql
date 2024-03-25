@@ -64,3 +64,4 @@ LOAD DATA LOCAL INFILE
         `name_id`,
         `category`,
         `characters`);
+
