@@ -8,14 +8,25 @@ version: "3.8"
 
 services:
 
+    # service: frontend (nginx/JS)
+    frontend:
+        build: ./frontend
+        ports:
+            - 80:80
+        networks:
+            - frontnet
+        depends_on:
+            - backend
+
     # service: backend (Flask)
     backend:
         container_name: backend
         build: ./backend
-        ports:
-            - "8000:8000"
+        expose:
+            - 8000
         networks:
             - backnet
+            - frontnet
         links:
             - db
         secrets:
@@ -58,3 +69,4 @@ secrets:
 
 networks:
   backnet:
+  frontnet:
