@@ -4,6 +4,8 @@ WORKDIR /app
 RUN pip install -r requirements.txt
 CMD ["python", "queries.py"]
 
+FROM
+
 ENV FLASK_APP queries.py
 ENV FLASK_ENV development
 ENV FLASK_RUN_PORT
