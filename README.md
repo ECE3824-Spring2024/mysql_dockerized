@@ -3,7 +3,7 @@ The purpose of this project is to deploy a full-stack web app using Docker.
 The app consists of three services, each of which is Dockerized:
 - Database (MySQL)
 - Backend (Flask)
-- Frontend (Nginx)
+- Frontend (Nginx/Javascript/HTML)
 # Building and Deploying with Docker
 First, clone this repository onto your local machine.
 To start the application, use `docker-compose`:
