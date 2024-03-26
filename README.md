@@ -24,3 +24,9 @@ Then re-compose (building is not necessary if you built the images before):
 ```
 docker-compose up -d
 ```
+# Accessing the Website
+To access the query web interface, simply visit `localhost`. 
+Type the following into your browser of choice (no port number is required):
+```
+localhost
+```
