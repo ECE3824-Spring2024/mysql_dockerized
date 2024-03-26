@@ -51,7 +51,7 @@ class mysqlManager:
             # transform the result for return
             if result:
                 characters = [(row[1], row[0].replace('"','').lstrip('[').rstrip(']').split(','))
-                              for row in result]
+                              if row[0] else (row[1], "N/A") for row in result]
             else:
                 characters = None
 
