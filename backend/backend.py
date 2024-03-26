@@ -1,5 +1,15 @@
-import os
-from flask import Flask
+## 
+# @brief Runs a Flask backend that queries a MySQL database.
+#
+# @section Description
+# This program performs SQL queries on a MySQL 
+# Docker container. The Flask app receives data
+# via GET HTTP requests.
+#
+# @section Author
+# - John Nori, Jalen Guan, Muho Ahmed, Jake Grinsh (c) 2024
+
+from flask import Flask, request, jsonify
 import mysql.connector
 import json
 
@@ -28,27 +38,22 @@ class mysqlManager:
     
     def make_actor_query(self, name="Tom Hardy"):
         query = """
-                SELECT r.characters, t.title
-                FROM roles r
+                SELECT r.characters, t.title FROM roles r
                 JOIN names n ON r.name_id = n.name_id
                 JOIN titles t ON r.title_id = t.title_id
-                WHERE n.name = "Tom Hardy"
-                """
+                WHERE n.name = "%s"
+                """ % (name)
         with self.connection.cursor(buffered=True) as cursor:
             cursor.execute(query)
             self.connection.commit()
             result = cursor.fetchall()
 
             # transform the result for return
-            characters = [(row[0].replace('"','').lstrip('[').rstrip(']'), row[1])
-                          for row in result]
-
-            if characters:
-                print("Characters played by Tom Hardy:")
-                for character, title in characters:
-                    print(f"Character: {character}, Title: {title}")
+            if result:
+                characters = [(row[1], row[0].replace('"','').lstrip('[').rstrip(']').split(','))
+                              for row in result]
             else:
-                print("No characters found for Tom Hardy.")
+                characters = None
 
         # return the list
         return characters
@@ -56,14 +61,21 @@ class mysqlManager:
 server = Flask(__name__)
 conn = None
 
-@server.route('/')
-def index():
+@server.route('/search', methods=['GET'])
+def handle_get():
     global conn
     if not conn:
         mysql_manager = mysqlManager(password_file='/run/secrets/db-password')
-    rec = mysql_manager.make_actor_query()
-
-    return json.dumps(rec)
+    if request.method == 'GET':
+        name = request.args['actor']
+        print(name)
+        rec = mysql_manager.make_actor_query(name=name)
+        if rec:
+            return jsonify(dict((key, value) for key, value in rec))
+        else:
+            return jsonify({})
+    else:
+        return "Invalid Name"
 
 if __name__ == '__main__':
     server.run()

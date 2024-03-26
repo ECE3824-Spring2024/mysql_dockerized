@@ -1,8 +1,21 @@
 server {
-    listen       80;
-    server_name  localhost;
+    listen 80;
+
+    # Define location for static files
     location / {
-        proxy_pass   http://backend:8000;
+        root /var/www/html;  # Path to your static frontend files
+        index index.html;
+        try_files $uri $uri/ =404;
     }
 
+    # Define location for Flask backend
+    location /search {
+        proxy_pass http://backend:8000/search;  # Flask backend URL
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Additional Nginx configuration for security, caching, etc. can be added here
 }

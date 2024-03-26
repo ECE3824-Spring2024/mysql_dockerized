@@ -23,4 +23,4 @@ ENV FLASK_RUN_PORT 8000
 ENV FLASK_RUN_HOST 0.0.0.0
 
 # Run the Flask backend.
-CMD ["flask", "run"]
+CMD ["flask", "run", "--debug"]
