@@ -346,13 +346,6 @@ def make_query(host:str, user:str, password:str, database:str, code:int=0, print
     except Error as e:  
         print(e)
 
-'''
-Get the function, ready to start modify for flask
-'''
-def listBlog()
-    return response
-    
-
 def main(argv):
     """The Main Program."""
 
@@ -369,9 +362,9 @@ def main(argv):
     # parse the config file to get the network parameters
     config   = configparser.ConfigParser()
     config.read("remote.cfg")
-    host     = "mydb"
-    user     = "myuser"
-    password = "mypassword"
+    host     = "mysql_db"
+    user     = "root"
+    password = "root"
     database = "imdb_database"
 
     # connect to the database and make queries

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Actor Search</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Actor Search</h1>
+
+<label for="actorName">Enter Actor Name:</label>
+<input type="text" id="actorName" placeholder="Enter actor's name">
+<button onclick="searchActor()">Search</button>
+
+<h2>Results</h2>
+<h3><div id="invalidString"></div></h3>
+<table id="resultsTable">
+    <thead>
+        <tr>
+            <th>Movie</th>
+            <th>Roles</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Results will be populated here -->
+    </tbody>
+</table>
+
+<script>
+    function searchActor() {
+        const actorName = document.getElementById('actorName').value;
+
+        fetch(`/search?actor=${encodeURIComponent(actorName)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayResults(data);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error.message);
+            });
+    }
+
+    function displayResults(data) {
+        const resultsTable = document.getElementById('resultsTable').getElementsByTagName('tbody')[0];
+        resultsTable.innerHTML = '';  // Clear previous results
+
+        const invalidString = document.getElementById('invalidString')
+        invalidString.innerHTML = ''
+
+        if (Object.keys(data).length === 0 && data.constructor === Object) {
+            console.log("JSON object is empty.")
+            invalidString.innerHTML = "<h3>No results found!<h3>"
+        }
+        else {
+            for (const [movie, roles] of Object.entries(data)) {
+                const row = resultsTable.insertRow();
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+
+                cell1.textContent = movie;
+                cell2.textContent = roles.join(', ');
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
