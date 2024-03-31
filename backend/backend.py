@@ -32,7 +32,7 @@ class mysqlManager:
                 self.connection = mysql.connector.connect(
                     host=host,
                     user=user, 
-                    password=fp.read().rstrip('\n'),
+                    password='root',
                     database=database,
                 )
     

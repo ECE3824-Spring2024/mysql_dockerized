@@ -43,7 +43,7 @@ services:
         build: ./database
         environment:
             - MYSQL_DATABASE=imdb_database
-            - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+            - MYSQL_ROOT_PASSWORD=root
         expose:
             - 3306
             - 33060 
