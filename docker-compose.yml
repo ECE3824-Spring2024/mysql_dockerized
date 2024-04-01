@@ -44,6 +44,7 @@ services:
         environment:
             - MYSQL_DATABASE=imdb_database
             - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+            - MYSQL_ROOT_HOST=%
         expose:
             - 3306
             - 33060 
