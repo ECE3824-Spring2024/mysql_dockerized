@@ -70,6 +70,8 @@ def handle_get():
         name = request.args['actor']
         print(name)
         rec = mysql_manager.make_actor_query(name=name)
+        for key, value in rec:
+            print(key, value)
         if rec:
             return jsonify(dict((key, value) for key, value in rec))
         else:
